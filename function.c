@@ -112,6 +112,30 @@ void overWriteScore(Actor *actor) {
     }
 }
 
+void printScreen(Actor *player, char text[MAX_TEXT_LENGTH]) {
+    int inGame = 1;
+
+    if (inGame) {
+        printf("\n");
+        printf("========================================\n");
+        printf("========================================\n");
+        printf("\n");
+        printf("----------------------------------------\n");
+        printf("You have %d tip\n", player->tip);
+        printf("----------------------------------------\n");
+        printf("\n");
+        printf("\n");
+        printf("\n");
+        printf("%s\n", text);
+        printf("\n");
+        printf("----------------------------------------\n");
+        printf("\n");
+        printf("========================================\n");
+        printf("========================================\n");
+        printf("\n");
+    }
+}
+
 void printHaveTip(Actor *actor, int bet, int result) { // 0: lose, 1: win, 2: draw
     if (result == 0) {
         actor->tip -= bet;

@@ -24,6 +24,8 @@ int main(void) {
     initializeActor(&dealer);
     initializeActor(&player);
 
+
+    // start game
     sleep(waitTime);
 
     printf("\n");
@@ -69,11 +71,13 @@ int main(void) {
         printf("\n");
     }
 
+    // in game
     while (1) {
 
         printf("========================================\n");
         printf("========================================\n");
         printf("\n");
+
 
         int bet;
 
@@ -91,6 +95,7 @@ int main(void) {
             printf("How much would you bet? (1 ~ %d): ", player.tip);
         }
 
+
         sleep(waitTime);
         printf("----------------------------------------\n");
         printf("\n");
@@ -102,6 +107,7 @@ int main(void) {
             sleep(waitTime);
             continue;
         }
+
 
         char turn = 'p';
         
@@ -130,6 +136,8 @@ int main(void) {
             turn = 'n';
         }
 
+
+        // player's turn
         if (turn == 'p') {
             sleep(waitTime);
 
@@ -175,6 +183,8 @@ int main(void) {
             }
         }
 
+
+        // dealer's turn
         if (turn == 'd') {
             sleep(waitTime);
             printf("----------------------------------------\n");
@@ -199,16 +209,19 @@ int main(void) {
             }
         }
 
+
         if (turn != 'n') {
             sleep(waitTime);
             printf("----------------------------------------\n");
             printf("\n");
         }
 
+        
         overWriteScore(&dealer);
         overWriteScore(&player);
 
 
+        // result
         if (dealer.isBust) {
             printHaveTip(&player, bet, 1);
         } else if (player.isBust) {
@@ -227,6 +240,8 @@ int main(void) {
 
         sleep(waitTime);
 
+
+        // game over
         if (player.tip <= 0) {
             printf("You don't have enough tip. Game over.\n");
             printf("\n");
@@ -236,6 +251,8 @@ int main(void) {
 
         int wantToPlay;
 
+
+        // play again
         while (1) {
             char input;
             printf("Play again? (y/n): ");
@@ -267,6 +284,8 @@ int main(void) {
         sleep(waitTime);
     }
 
+
+    // game result
     sleep(waitTime);
     printf("========================================\n");
     printf("\n");
@@ -284,6 +303,8 @@ int main(void) {
     printf("\n");
     sleep(waitTime);
 
+
+    // end game
     printf("\n");
     printf("\n");
     printf("****************************************\n");
