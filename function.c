@@ -55,9 +55,6 @@ void initializeActor(Actor *actor) {
     actor->isBust = 0;
     actor->judge = -1;
     actor->action = 'p';
-    actor->firstTip = 0;
-    actor->maxTip = 0;
-    actor->finalScore = 0;
 }
 
 int drawCard(int *deck, int *scoreDeck, Actor *actor) {
@@ -102,16 +99,25 @@ int printActor(char showCard[N][3], Actor *actor) {
         printf("%s ", showCard[actor->cards[i]]);
     }
     printf("\n");
-    printf("Score: %d", actor->score[0]);
     printScore(actor);
     printf("\n");
     return 0;
 }
 
 void printScore(Actor *actor) {
+    printf("Score: %d", actor->score[0]);
     for (int i=0; i<3; i++) {
         if (actor->score[i] != actor->score[i+1] && actor->score[i+1] != 0) {
             printf(" / %d", actor->score[i+1]);
+        }
+    }
+}
+
+void getBestScore(Actor *actor) {
+    actor->bestScore = actor->score[0];
+    for (int i = 1; i < 4; i++) {
+        if (actor->score[i] <= 21 && actor->score[i] > actor->bestScore) {
+            actor->bestScore = actor->score[i];
         }
     }
 }

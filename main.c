@@ -24,6 +24,10 @@ int main(void) {
     initializeActor(&dealer);
     initializeActor(&player);
 
+    player.maxTip = 0;
+    player.firstTip = 0;
+    player.finalScore = 0;
+
 
     // start game
     sleep(waitTime);
@@ -51,11 +55,7 @@ int main(void) {
     player.firstTip = player.tip;
     player.maxTip = player.tip;
 
-    sleep(waitTime);
-    
     pHaveTip(&player);
-
-    sleep(waitTime);
     
     pShuffling(&player);
 
@@ -79,7 +79,6 @@ int main(void) {
         // }
 
 
-        sleep(waitTime);
 
         if (bet > player.tip) {
             pBetError(&player, bet);
@@ -94,18 +93,17 @@ int main(void) {
         
         sleep(waitTime);
         
-        pDrawingCards(&player, bet);
+        pDrawingCard(&player, bet);
 
         // first draw
         drawCard(deck, scoreDeck, &dealer);
         drawCard(deck, scoreDeck, &player);
-        dealer.isBust = drawCard(deck, scoreDeck, &dealer);
         player.isBust = drawCard(deck, scoreDeck, &player);
 
         pFirstDrawResult(showCard, &player, &dealer, bet);
+        sleep(waitTime);
 
         if (player.score[0]==21 || player.score[1]==21 || player.score[2]==21 || player.score[3] == 21) {
-            sleep(waitTime);
             pBlackjack(showCard, &player, &dealer, bet);
             sleep(waitTime);
             turn = 'n';
@@ -114,7 +112,6 @@ int main(void) {
 
         // player's turn
         while (turn == 'p') {
-            sleep(waitTime);
             pPlayerTurn(showCard, &player, &dealer, bet);
 
             char input = player.action;
@@ -131,30 +128,25 @@ int main(void) {
             //     printf("Hits or Stand? (h/s): ");
             // }
             
-            sleep(waitTime);
-
-            if (input =='s') {
+            if (input == 'h' && player.isBust == 0) {
+                pPlayerHiting(showCard, &player, &dealer, bet);
+                sleep(waitTime);
+                player.isBust = drawCard(deck, scoreDeck, &player);
+                if (player.isBust) {
+                    sleep(waitTime);
+                    pPlayerBusts(showCard, &player, &dealer, bet);
+                    sleep(waitTime);
+                    break;
+                }
+            } else if (input == 's') {
                 turn = 'd';
             }
-            // if (input == 'h' && player.isBust == 0) {
-            //     player.isBust = drawCard(deck, scoreDeck, &player);
-            //     printActor(showCard, &player);
-            //     printf("\n");
-            //     if (player.isBust) {
-            //         sleep(waitTime);
-            //         printf("Player busts! Dealer wins!\n");
-            //         printf("\n");
-            //         break;
-            //     }
-            // } else if (input == 's') {
-            //     turn = 'd';
-            // }
         }
 
+        dealer.isBust = drawCard(deck, scoreDeck, &dealer);
 
         // dealer's turn
         if (turn == 'd') {
-            sleep(waitTime);
             pDealerTurn(showCard, &player, &dealer, bet);
         }
 
@@ -214,7 +206,7 @@ int main(void) {
         // play again
         while (1) {
             char wantToPlayAgain;
-            pPlayerAgain(showCard, &player, &dealer, bet, &wantToPlayAgain);
+            pPlayAgain(showCard, &player, &dealer, bet, &wantToPlayAgain);
             if (wantToPlayAgain == 'y') {
                 wantToPlay = 1;
                 break;
@@ -234,8 +226,6 @@ int main(void) {
         initializeActor(&dealer);
         initializeActor(&player);
 
-        sleep(waitTime);
-
         pShuffling(&player);
 
         sleep(waitTime);
@@ -243,7 +233,6 @@ int main(void) {
 
 
     // game result
-    sleep(waitTime);
     pGameResult(&player);
 
 

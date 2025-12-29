@@ -9,11 +9,15 @@ void printSpace(int n) {
     }
 }
 
-void printScreenTopBottom() {
-    printf("\n");
+void printScreenTop() {
+    printSpace(5);
     printf("========================================\n");
     printf("========================================\n");
-    printf("\n");
+}
+
+void printScreenBottom() {
+    printf("========================================\n");
+    printf("========================================\n");
 }
 
 void printScreen1stSection() {
@@ -57,13 +61,6 @@ void printScreenHaveTip(Actor *player) {
     printf("----------------------------------------\n");
 }
 
-void printScreenDicideOwnedTip(Actor *player) {
-    printSpace(5);
-    printf("Decide your owned tip (1 ~ 2147483647): ");
-    scanf(" %d", &player->tip);
-    printSpace(5);
-}
-
 void printScreenBet(Actor *player, int *bet) {
     printSpace(5);
     printf("How much would you bet? (1 ~ %d): ", player->tip);
@@ -74,79 +71,90 @@ void printScreenBet(Actor *player, int *bet) {
 void printScreenFirstDrawDeck(char showCard[N][3], Actor *player, Actor *dealer, int bet) {
     printf("bet: %d", bet);
     printSpace(2);
+    printSpace(1);
     printf("**************** Dealer ****************\n");
-    printf("%s\n", showCard[dealer->cards[0]]);
+    for (int i=0; i<dealer->count; i++) {
+        printf("%s ", showCard[dealer->cards[i]]);
+    }
+    printf("\n");
     printScore(dealer);
+    printf("\n");
     printSpace(1);
     printf("**************** Player ****************\n");
     for (int i=0; i<player->count; i++) {
-        printf("%s\n", showCard[player->cards[i]]);
+        printf("%s ", showCard[player->cards[i]]);
     }
+    printf("\n");
     printScore(player);
+    printf("\n");
     printSpace(1);
 }
 
 void printScreenWinOrLose(char showCard[N][3], Actor *player, Actor *dealer, int bet, char judge[6]) {
-    printScreenTopBottom();
+    printScreenTop();
     printScreenHaveTip(player);
     printScreenFirstDrawDeck(showCard, player, dealer, bet);
     printf("----------------------------------------\n");
     printSpace(1);
     printf("You %s!\n", judge);
     printSpace(3);
-    printScreenTopBottom();
+    printScreenBottom();
 }
 
 // ============================================================================================================================================================
 // ============================================================================================================================================================
 // ============================================================================================================================================================
 
-void pWelcom() {
-    printScreenTopBottom();
+void pWelcome() {
+    printScreenTop();
     printScreen1stSection();
     printScreenWelcom();
     printScreen3rdSection();
-    printScreenTopBottom();
+    printScreenBottom();
 }
 
 void pDecideOwnedTip(Actor *player) {
-    printScreenTopBottom();
+    printScreenTop();
     printScreen1stSection();
-    printScreenDicideOwnedTip(player);
+    printScreenWelcom();
     printScreen3rdSection();
-    printScreenTopBottom();
+    printScreenBottom();
+    printf("Decide your owned tip (1 ~ 2147483647): ");
+    scanf("%d", &player->tip);
 }
 
 void pHaveTip(Actor *player) {
-    printScreenTopBottom();
+    printScreenTop();
     printScreenHaveTip(player);
     printSpace(5);
     printf("Decide your owned tip (1 ~ 2147483647): %d\n", player->tip);
     printSpace(5);
     printScreen3rdSection();
-    printScreenTopBottom();
+    printScreenBottom();
 }
 
 void pShuffling(Actor *player) {
-    printScreenTopBottom();
+    printScreenTop();
     printScreenHaveTip(player);
     printScreenMidSection("Shuffling the deck...");
     printScreen3rdSection();
-    printScreenTopBottom();
+    printScreenBottom();
 }
 
 // > in game
 
 void pBet(Actor *player, int *bet) {
-    printScreenTopBottom();
+    printScreenTop();
     printScreenHaveTip(player);
-    printScreenBet(player, bet);
+    printScreen2ndSection();
     printScreen3rdSection();
-    printScreenTopBottom();
+    printScreenBottom();
+    printf("How much would you bet? (1 ~ %d): ", player->tip);
+    scanf(" %d", bet);
 }
 
 void pBetError(Actor *player, int bet) {
-    printScreenTopBottom();
+    printScreenTop();
     printScreenHaveTip(player);
     printf("bet: %d\n", bet);
     printSpace(4);
@@ -157,46 +165,46 @@ void pBetError(Actor *player, int bet) {
     printf("You don't have enough tip.\n");
     printf("Please enter a available number.\n");
     printSpace(2);
-    printScreenTopBottom();
+    printScreenBottom();
 }
 
 void pBetedBet(Actor *player, int *bet) {
-    printScreenTopBottom();
+    printScreenTop();
     printScreenHaveTip(player);
     printf("bet: %d\n", *bet);
     printSpace(4);
     printf("How much would you bet? (1 ~ %d): %d\n", player->tip, *bet);
     printSpace(5);
     printScreen3rdSection();
-    printScreenTopBottom();
+    printScreenBottom();
 }
 
 void pDrawingCard(Actor *player, int bet) {
-    printScreenTopBottom();
+    printScreenTop();
     printScreenHaveTip(player);
     printScreenMidSectionWithBet("Drawing card...", bet);
     printScreen3rdSection();
-    printScreenTopBottom();
+    printScreenBottom();
 }
 
 void pFirstDraw(Actor *player, Actor *dealer, int bet) {
-    printScreenTopBottom();
+    printScreenTop();
     printScreenHaveTip(player);
     printScreenMidSectionWithBet("Drawing card...", bet);
     printScreen3rdSection();
-    printScreenTopBottom();
+    printScreenBottom();
 }
 
 void pFirstDrawResult(char showCard[N][3], Actor *player, Actor *dealer, int bet) {
-    printScreenTopBottom();
+    printScreenTop();
     printScreenHaveTip(player);
     printScreenFirstDrawDeck(showCard, player, dealer, bet);
     printScreen3rdSection();
-    printScreenTopBottom();
+    printScreenBottom();
 }
 
 void pBlackjack(char showCard[N][3], Actor *player, Actor *dealer, int bet) {
-    printScreenTopBottom();
+    printScreenTop();
     printScreenHaveTip(player);
     printScreenFirstDrawDeck(showCard, player, dealer, bet);
     printf("----------------------------------------\n");
@@ -204,28 +212,27 @@ void pBlackjack(char showCard[N][3], Actor *player, Actor *dealer, int bet) {
     printf("Blackjack!\n");
     printSpace(2);
     printScreen3rdSection();
-    printScreenTopBottom();
+    printScreenBottom();
 }
 
 void pPlayerTurn(char showCard[N][3], Actor *player, Actor *dealer, int bet) {
-    printScreenTopBottom();
+    printScreenTop();
     printScreenHaveTip(player);
     printScreenFirstDrawDeck(showCard, player, dealer, bet);
     printf("----------------------------------------\n");
     printSpace(1);
     printf("Player's turn...\n");
-    printSpace(1);
+    printSpace(3);
+    printScreenBottom();
     printf("Hit or Stand? (h/s): ");
     scanf(" %c", &player->action);
-    printSpace(1);
-    printScreenTopBottom();
 }
 
 void pPlayerHiting(char showCard[N][3], Actor *player, Actor *dealer, int bet) {
-    player->count++;
     player->cards[player->count] = 52;
+    player->count++;
     
-    printScreenTopBottom();
+    printScreenTop();
     printScreenHaveTip(player);
     printScreenFirstDrawDeck(showCard, player, dealer, bet);
     printf("----------------------------------------\n");
@@ -234,35 +241,35 @@ void pPlayerHiting(char showCard[N][3], Actor *player, Actor *dealer, int bet) {
     printSpace(1);
     printf("Hit or Stand? (h/s): h -> Hit!\n");
     printSpace(1);
-    printScreenTopBottom();
+    printScreenBottom();
     
     player->count--;
 }
 
 void pPlayerHitResult(char showCard[N][3], Actor *player, Actor *dealer, int bet) {
-    printScreenTopBottom();
+    printScreenTop();
     printScreenHaveTip(player);
     printScreenFirstDrawDeck(showCard, player, dealer, bet);
     printf("----------------------------------------\n");
     printSpace(1);
     printf("Player's turn...\n");
     printSpace(3);
-    printScreenTopBottom();
+    printScreenBottom();
 }
 
 void pPlayerBusts(char showCard[N][3], Actor *player, Actor *dealer, int bet) {
-    printScreenTopBottom();
+    printScreenTop();
     printScreenHaveTip(player);
     printScreenFirstDrawDeck(showCard, player, dealer, bet);
     printf("----------------------------------------\n");
     printSpace(2);
     printf("Player busts!\n");
     printSpace(2);
-    printScreenTopBottom();
+    printScreenBottom();
 }
 
 void pPlayerStand(char showCard[N][3], Actor *player, Actor *dealer, int bet) {
-    printScreenTopBottom();
+    printScreenTop();
     printScreenHaveTip(player);
     printScreenFirstDrawDeck(showCard, player, dealer, bet);
     printf("----------------------------------------\n");
@@ -271,38 +278,38 @@ void pPlayerStand(char showCard[N][3], Actor *player, Actor *dealer, int bet) {
     printSpace(1);
     printf("Hit or Stand? (h/s): s -> Stand!\n");
     printSpace(1);
-    printScreenTopBottom();
+    printScreenBottom();
 }
 
 void pDealerTurn(char showCard[N][3], Actor *player, Actor *dealer, int bet) {
-    printScreenTopBottom();
+    printScreenTop();
     printScreenHaveTip(player);
     printScreenFirstDrawDeck(showCard, player, dealer, bet);
     printf("----------------------------------------\n");
     printSpace(1);
     printf("Dealer's turn...\n");
     printSpace(3);
-    printScreenTopBottom();
+    printScreenBottom();
 }
 
 void pDealerDrawingCard(char showCard[N][3], Actor *player, Actor *dealer, int bet) {
-    dealer->count++;
     dealer->cards[dealer->count] = 52;
+    dealer->count++;
     
-    printScreenTopBottom();
+    printScreenTop();
     printScreenHaveTip(player);
     printScreenFirstDrawDeck(showCard, player, dealer, bet);
     printf("----------------------------------------\n");
     printSpace(1);
     printf("Dealer's turn... Drawing card...\n");
-    printSpace(1);
-    printScreenTopBottom();
+    printSpace(3);
+    printScreenBottom();
     
     dealer->count--;
 }
 
 void pDealerHitResult(char showCard[N][3], Actor *player, Actor *dealer, int bet) {
-    printScreenTopBottom();
+    printScreenTop();
     printScreenHaveTip(player);
     printScreenFirstDrawDeck(showCard, player, dealer, bet);
     printf("----------------------------------------\n");
@@ -311,31 +318,34 @@ void pDealerHitResult(char showCard[N][3], Actor *player, Actor *dealer, int bet
     printSpace(1);
     printf("Dranwd\n");
     printSpace(1);
-    printScreenTopBottom();
+    printScreenBottom();
 }
 
 void pDealerBusts(char showCard[N][3], Actor *player, Actor *dealer, int bet) {
-    printScreenTopBottom();
+    printScreenTop();
     printScreenHaveTip(player);
     printScreenFirstDrawDeck(showCard, player, dealer, bet);
     printf("----------------------------------------\n");
     printSpace(2);
     printf("Dealer busts!\n");
     printSpace(2);
-    printScreenTopBottom();
+    printScreenBottom();
 }
 
 void pJudge(char showCard[N][3], Actor *player, Actor *dealer, int bet) {
-    if (player->score[0] > 21) {
+    getBestScore(player);
+    getBestScore(dealer);
+
+    if (player->bestScore > 21) {
         printScreenWinOrLose(showCard, player, dealer, bet, "lose");
         player->judge = 0;
-    } else if (dealer->score[0] > 21) {
+    } else if (dealer->bestScore > 21) {
         printScreenWinOrLose(showCard, player, dealer, bet, "win");
         player->judge = 1;
-    } else if (player->score[0] > dealer->score[0]) {
+    } else if (player->bestScore > dealer->bestScore) {
         printScreenWinOrLose(showCard, player, dealer, bet, "win");
         player->judge = 1;
-    } else if (player->score[0] < dealer->score[0]) {
+    } else if (player->bestScore < dealer->bestScore) {
         printScreenWinOrLose(showCard, player, dealer, bet, "lose");
         player->judge = 0;
     } else {
@@ -345,7 +355,7 @@ void pJudge(char showCard[N][3], Actor *player, Actor *dealer, int bet) {
 
     sleep(waitTime);
     
-    printScreenTopBottom();
+    printScreenTop();
 
     char judgeText[6];
 
@@ -362,16 +372,17 @@ void pJudge(char showCard[N][3], Actor *player, Actor *dealer, int bet) {
         printf("Your tip: %d -> %d (±0)\n", player->tip, player->tip);
     }
     printf("You have %d tip\n", player->tip);
+    printf("----------------------------------------\n");
     printScreenFirstDrawDeck(showCard, player, dealer, bet);
     printf("----------------------------------------\n");
     printSpace(1);
     printf("You %s!\n", judgeText);
     printSpace(3);
-    printScreenTopBottom();
+    printScreenBottom();
 }
 
 void pPlayAgain(char showCard[N][3], Actor *player, Actor *dealer, int bet, char *wantToPlayAgain) {
-    printScreenTopBottom();
+    printScreenTop();
     printScreenHaveTip(player);
     printScreenFirstDrawDeck(showCard, player, dealer, bet);
     printf("----------------------------------------\n");
@@ -387,25 +398,24 @@ void pPlayAgain(char showCard[N][3], Actor *player, Actor *dealer, int bet, char
     }
     printf("You %s!\n", judgeText);
 
-    printSpace(1);
+    printSpace(3);
+    printScreenBottom();
     printf("Play again? (y/n):");
     scanf(" %c", wantToPlayAgain);
-    printSpace(1);
-    printScreenTopBottom();
 }
 
 void pGameOver(Actor *player) {
-    printScreenTopBottom();
+    printScreenTop();
     printScreenHaveTip(player);
     printScreenMidSection("You don't have enough tip. Game Over");
     printScreen3rdSection();
-    printScreenTopBottom();
+    printScreenBottom();
 }
 
 void pGameResult(Actor *player) {
     player->finalScore = (player->maxTip / player->firstTip) * 30 + (player->tip / player->firstTip) * 50;
 
-    printScreenTopBottom();
+    printScreenTop();
     printScreenHaveTip(player);
     printSpace(2);
     printf("Your first tip is %d\n", player->firstTip);
@@ -418,11 +428,11 @@ void pGameResult(Actor *player) {
     printSpace(2);
     printf("Score: %d\n", player->finalScore);
     printSpace(2);
-    printScreenTopBottom();
+    printScreenBottom();
 }
 
 void pEndGame(Actor *player) {
-    printScreenTopBottom();
+    printScreenTop();
     printSpace(1);
     printf("Tip: First: %d, Max: %d, Final: %d\n", player->firstTip, player->maxTip, player->tip);
     printf("----------------------------------------\n");
@@ -435,6 +445,6 @@ void pEndGame(Actor *player) {
     printSpace(2);
     printf("Score: %d\n", player->finalScore);
     printSpace(2);
-    printScreenTopBottom();
+    printScreenBottom();
 }
     
