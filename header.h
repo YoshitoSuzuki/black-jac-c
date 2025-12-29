@@ -1,7 +1,7 @@
 #ifndef HEADER_H
 #define HEADER_H
 
-#define N 52
+#define N 53
 #define waitTime 1
 #define MAX_TEXT_LENGTH 20
 
@@ -18,8 +18,10 @@ typedef struct actor {
     int score[4];
     int ACount;
     int isBust; // 0: not bust, 1: bust
+    char action;
     int firstTip;
     int maxTip;
+    int finalScore;
 } Actor;
 
 void initializeDeck(int *deck);
@@ -28,12 +30,32 @@ void initializeShowCard(char showCard[N][3]);
 void initializeActor(Actor *actor);
 int drawCard(int *deck, int *scoreDeck, Actor *actor);
 int printActor(char showCard[N][3], Actor *actor);
+void printScore(Actor *actor);
 void overWriteScore(Actor *actor);
 void printHaveTip(Actor *actor, int bet, int result); // 0: lose, 1: win, 2: draw
 
-void printScreen(Actor *actor, char text[MAX_TEXT_LENGTH]);
-void printScreenTop();
-void printScreenBottom();
+void pWelcome();
+void pDecideOwnedTip(Actor *player);
+void pHaveTip(Actor *player);
+void pShuffling(Actor *player);
+void pBet(Actor *player, int *bet);
+void pBetedBet(Actor *player, int *bet);
+void pDrawingCards(Actor *player, int bet);
+void pFirstDraw(Actor *player, Actor *dealer, int bet);
+void pFirstDrawResult(char showCard[N][3], Actor *player, Actor *dealer, int bet);
+void pPlayerTurn(char showCard[N][3], Actor *player, Actor *dealer, int bet);
+void pPlayerHiting(char showCard[N][3], Actor *player, Actor *dealer, int bet);
+void pPlayerHitResult(char showCard[N][3], Actor *player, Actor *dealer, int bet);
+void pPlayerBusts(char showCard[N][3], Actor *player, Actor *dealer, int bet);
+void pPlayerStand(char showCard[N][3], Actor *player, Actor *dealer, int bet);
+void pDealerTurn(char showCard[N][3], Actor *player, Actor *dealer, int bet);
+void pDealerDrawingCard(char showCard[N][3], Actor *player, Actor *dealer, int bet);
+void pDealerHitResult(char showCard[N][3], Actor *player, Actor *dealer, int bet);
+void pDealerBusts(char showCard[N][3], Actor *player, Actor *dealer, int ber);
+void pWinOrLose(char ShowCard[N][3], Actor *player, Actor *dealer, int bet, char judge[6]);
+void pPlayerAgain(char showCard[N][3], Actor *player, Actor* dealer, int bet, char *wantToPlayAgain);
+void pGameResult(Actor *player);
+void pEndGame(Actor *player);
 
 #endif
 

@@ -28,11 +28,7 @@ int main(void) {
     // start game
     sleep(waitTime);
 
-    printf("\n");
-    printf("****************************************\n");
-    printf("******** Welcome to Black Jack! ********\n");
-    printf("****************************************\n");
-    printf("\n");
+    pWelcome();
 
     sleep(waitTime);
 

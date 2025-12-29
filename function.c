@@ -41,6 +41,9 @@ void initializeShowCard(char showCard[N][3]) {
 
         showCard[i][2] = '\0';
     }
+    showCard[52][0] = '?';
+    showCard[52][1] = '?';
+    showCard[52][2] = '\0';
 }
 
 void initializeActor(Actor *actor) {
@@ -50,6 +53,10 @@ void initializeActor(Actor *actor) {
     }
     actor->ACount = 0;
     actor->isBust = 0;
+    actor->action = 'p';
+    actor->firstTip = 0;
+    actor->maxTip = 0;
+    actor->finalScore = 0;
 }
 
 int drawCard(int *deck, int *scoreDeck, Actor *actor) {
@@ -95,13 +102,17 @@ int printActor(char showCard[N][3], Actor *actor) {
     }
     printf("\n");
     printf("Score: %d", actor->score[0]);
+    printScore(actor);
+    printf("\n");
+    return 0;
+}
+
+void printScore(Actor *actor) {
     for (int i=0; i<3; i++) {
         if (actor->score[i] != actor->score[i+1] && actor->score[i+1] != 0) {
             printf(" / %d", actor->score[i+1]);
         }
     }
-    printf("\n");
-    return 0;
 }
 
 void overWriteScore(Actor *actor) {
