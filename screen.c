@@ -1,5 +1,7 @@
 #include "header.h"
 #include <stdio.h>
+#include <string.h>
+#include <unistd.h>
 
 void printSpace(int n) {
     for (int i=0; i<n; i++) {
@@ -84,6 +86,17 @@ void printScreenFirstDrawDeck(char showCard[N][3], Actor *player, Actor *dealer,
     printSpace(1);
 }
 
+void printScreenWinOrLose(char showCard[N][3], Actor *player, Actor *dealer, int bet, char judge[6]) {
+    printScreenTopBottom();
+    printScreenHaveTip(player);
+    printScreenFirstDrawDeck(showCard, player, dealer, bet);
+    printf("----------------------------------------\n");
+    printSpace(1);
+    printf("You %s!\n", judge);
+    printSpace(3);
+    printScreenTopBottom();
+}
+
 // ============================================================================================================================================================
 // ============================================================================================================================================================
 // ============================================================================================================================================================
@@ -132,6 +145,21 @@ void pBet(Actor *player, int *bet) {
     printScreenTopBottom();
 }
 
+void pBetError(Actor *player, int bet) {
+    printScreenTopBottom();
+    printScreenHaveTip(player);
+    printf("bet: %d\n", bet);
+    printSpace(4);
+    printf("How much would you bet? (1 ~ %d): %d\n", player->tip, bet);
+    printSpace(5);
+    printf("----------------------------------------\n");
+    printSpace(2);
+    printf("You don't have enough tip.\n");
+    printf("Please enter a available number.\n");
+    printSpace(2);
+    printScreenTopBottom();
+}
+
 void pBetedBet(Actor *player, int *bet) {
     printScreenTopBottom();
     printScreenHaveTip(player);
@@ -163,6 +191,18 @@ void pFirstDrawResult(char showCard[N][3], Actor *player, Actor *dealer, int bet
     printScreenTopBottom();
     printScreenHaveTip(player);
     printScreenFirstDrawDeck(showCard, player, dealer, bet);
+    printScreen3rdSection();
+    printScreenTopBottom();
+}
+
+void pBlackjack(char showCard[N][3], Actor *player, Actor *dealer, int bet) {
+    printScreenTopBottom();
+    printScreenHaveTip(player);
+    printScreenFirstDrawDeck(showCard, player, dealer, bet);
+    printf("----------------------------------------\n");
+    printSpace(2);
+    printf("Blackjack!\n");
+    printSpace(2);
     printScreen3rdSection();
     printScreenTopBottom();
 }
@@ -285,13 +325,47 @@ void pDealerBusts(char showCard[N][3], Actor *player, Actor *dealer, int bet) {
     printScreenTopBottom();
 }
 
-void pWinOrLose(char showCard[N][3], Actor *player, Actor *dealer, int bet, char judge[6]) {
+void pJudge(char showCard[N][3], Actor *player, Actor *dealer, int bet) {
+    if (player->score[0] > 21) {
+        printScreenWinOrLose(showCard, player, dealer, bet, "lose");
+        player->judge = 0;
+    } else if (dealer->score[0] > 21) {
+        printScreenWinOrLose(showCard, player, dealer, bet, "win");
+        player->judge = 1;
+    } else if (player->score[0] > dealer->score[0]) {
+        printScreenWinOrLose(showCard, player, dealer, bet, "win");
+        player->judge = 1;
+    } else if (player->score[0] < dealer->score[0]) {
+        printScreenWinOrLose(showCard, player, dealer, bet, "lose");
+        player->judge = 0;
+    } else {
+        printScreenWinOrLose(showCard, player, dealer, bet, "draw");
+        player->judge = 2;
+    }
+
+    sleep(waitTime);
+    
     printScreenTopBottom();
-    printScreenHaveTip(player);
+
+    char judgeText[6];
+
+    if (player->judge == 0) {
+        strcpy(judgeText, "lose");
+        printf("Your tip: %d -> %d (-%d)\n", player->tip, player->tip - bet, bet);
+        player->tip -= bet;
+    } else if(player->judge == 1) {
+        strcpy(judgeText, "win");
+        printf("Your tip: %d -> %d (+%d)\n", player->tip, player->tip + bet, bet);
+        player->tip += bet;
+    } else if(player->judge == 2) {
+        strcpy(judgeText, "draw");
+        printf("Your tip: %d -> %d (±0)\n", player->tip, player->tip);
+    }
+    printf("You have %d tip\n", player->tip);
     printScreenFirstDrawDeck(showCard, player, dealer, bet);
     printf("----------------------------------------\n");
     printSpace(1);
-    printf("You %s!\n", judge);
+    printf("You %s!\n", judgeText);
     printSpace(3);
     printScreenTopBottom();
 }
@@ -302,9 +376,29 @@ void pPlayAgain(char showCard[N][3], Actor *player, Actor *dealer, int bet, char
     printScreenFirstDrawDeck(showCard, player, dealer, bet);
     printf("----------------------------------------\n");
     printSpace(1);
+    
+    char judgeText[6];
+    if (player->judge == 0) {
+        strcpy(judgeText, "lose");
+    } else if(player->judge == 1) {
+        strcpy(judgeText, "win");
+    } else if(player->judge == 2) {
+        strcpy(judgeText, "draw");
+    }
+    printf("You %s!\n", judgeText);
+
+    printSpace(1);
     printf("Play again? (y/n):");
     scanf(" %c", wantToPlayAgain);
-    printSpace(3);
+    printSpace(1);
+    printScreenTopBottom();
+}
+
+void pGameOver(Actor *player) {
+    printScreenTopBottom();
+    printScreenHaveTip(player);
+    printScreenMidSection("You don't have enough tip. Game Over");
+    printScreen3rdSection();
     printScreenTopBottom();
 }
 

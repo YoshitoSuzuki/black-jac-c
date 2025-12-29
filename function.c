@@ -53,6 +53,7 @@ void initializeActor(Actor *actor) {
     }
     actor->ACount = 0;
     actor->isBust = 0;
+    actor->judge = -1;
     actor->action = 'p';
     actor->firstTip = 0;
     actor->maxTip = 0;

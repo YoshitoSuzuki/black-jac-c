@@ -18,6 +18,7 @@ typedef struct actor {
     int score[4];
     int ACount;
     int isBust; // 0: not bust, 1: bust
+    int judge; // 0: lose, 1: win, 2: draw
     char action;
     int firstTip;
     int maxTip;
@@ -39,10 +40,12 @@ void pDecideOwnedTip(Actor *player);
 void pHaveTip(Actor *player);
 void pShuffling(Actor *player);
 void pBet(Actor *player, int *bet);
+void pBetError(Actor *player, int bet);
 void pBetedBet(Actor *player, int *bet);
 void pDrawingCards(Actor *player, int bet);
 void pFirstDraw(Actor *player, Actor *dealer, int bet);
 void pFirstDrawResult(char showCard[N][3], Actor *player, Actor *dealer, int bet);
+void pBlackjack(char showCard[N][3], Actor *player, Actor *dealer, int bet);
 void pPlayerTurn(char showCard[N][3], Actor *player, Actor *dealer, int bet);
 void pPlayerHiting(char showCard[N][3], Actor *player, Actor *dealer, int bet);
 void pPlayerHitResult(char showCard[N][3], Actor *player, Actor *dealer, int bet);
@@ -52,7 +55,8 @@ void pDealerTurn(char showCard[N][3], Actor *player, Actor *dealer, int bet);
 void pDealerDrawingCard(char showCard[N][3], Actor *player, Actor *dealer, int bet);
 void pDealerHitResult(char showCard[N][3], Actor *player, Actor *dealer, int bet);
 void pDealerBusts(char showCard[N][3], Actor *player, Actor *dealer, int ber);
-void pWinOrLose(char ShowCard[N][3], Actor *player, Actor *dealer, int bet, char judge[6]);
+void pJudge(char showCard[N][3], Actor *player, Actor *dealer, int bet);
+void pGameOver(Actor *player);
 void pPlayerAgain(char showCard[N][3], Actor *player, Actor* dealer, int bet, char *wantToPlayAgain);
 void pGameResult(Actor *player);
 void pEndGame(Actor *player);
