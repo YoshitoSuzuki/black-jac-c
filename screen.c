@@ -211,7 +211,6 @@ void pBlackjack(char showCard[N][3], Actor *player, Actor *dealer, int bet) {
     printSpace(2);
     printf("Blackjack!\n");
     printSpace(2);
-    printScreen3rdSection();
     printScreenBottom();
 }
 
