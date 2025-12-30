@@ -417,13 +417,13 @@ void pGameResult(Actor *player) {
 
     printScreenTop();
     printScreenHaveTip(player);
-    printSpace(2);
+    printSpace(3);
     printf("Your first tip is %d\n", player->firstTip);
     printSpace(1);
     printf("Your max tip is %d\n", player->maxTip);
     printSpace(1);
     printf("Your final tip is %d\n", player->tip);
-    printSpace(2);
+    printSpace(3);
     printf("----------------------------------------\n");
     printSpace(2);
     printf("Score: %d\n", player->finalScore);
