@@ -36,7 +36,15 @@ int main(void) {
 
     sleep(waitTime);
 
-    pDecideOwnedTip(&player);
+    while (1) {
+        pDecideOwnedTip(&player);
+        if (player.tip > 0) {
+            break;
+        } else {
+            pInputError();
+            sleep(waitTime);
+        }
+    }
 
     // while (1) {
     //     int res = scanf(" %d", &player.tip);
@@ -62,9 +70,17 @@ int main(void) {
     // in game
     while (1) {
 
-        int bet;
+        int bet = 0;
 
-        pBet(&player, &bet);
+        while (1) {
+            pBet(&player, &bet);
+            if (bet > 0) {
+                break;
+            } else {
+                pInputError();
+                sleep(waitTime);
+            }
+        }
 
         // while (1) {
         //     int res = scanf(" %d", &bet);
@@ -140,6 +156,10 @@ int main(void) {
                 }
             } else if (input == 's') {
                 turn = 'd';
+            } else {
+                pInputError();
+                sleep(waitTime);
+                continue;
             }
         }
 
@@ -213,6 +233,10 @@ int main(void) {
             } else if (wantToPlayAgain == 'n') {
                 wantToPlay = 0;
                 break;
+            } else {
+                pInputError();
+                sleep(waitTime);
+                continue;
             }
         }
 

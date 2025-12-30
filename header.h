@@ -38,6 +38,7 @@ void overWriteScore(Actor *actor);
 void printHaveTip(Actor *actor, int bet, int result); // 0: lose, 1: win, 2: draw
 
 void pWelcome();
+void pInputError();
 void pDecideOwnedTip(Actor *player);
 void pHaveTip(Actor *player);
 void pShuffling(Actor *player);

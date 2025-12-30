@@ -21,7 +21,7 @@ void printScreenBottom() {
 }
 
 void printScreen1stSection() {
-    printSpace(1);
+    printSpace(2);
     printf("----------------------------------------\n");
 }
 
@@ -109,6 +109,14 @@ void pWelcome() {
     printScreenTop();
     printScreen1stSection();
     printScreenWelcom();
+    printScreen3rdSection();
+    printScreenBottom();
+}
+
+void pInputError() {
+    printScreenTop();
+    printScreen1stSection();
+    printScreenMidSection("Please enter a available key.");
     printScreen3rdSection();
     printScreenBottom();
 }
@@ -446,4 +454,3 @@ void pEndGame(Actor *player) {
     printSpace(2);
     printScreenBottom();
 }
-    
